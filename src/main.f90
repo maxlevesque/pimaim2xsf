@@ -32,7 +32,27 @@ PROGRAM pimaim2xsf
     CONTAINS
 
     SUBROUTINE translate
-    
+        use module_io
+        integer :: i, j, k
+        real(dp) :: x, y, z
+        character(2), dimension(sum(ion%nb)) :: nature
+        k = 0
+        do i= 1, size(ion)
+            do j= 1, ion(i)%nb
+                k = k +1
+                nature(k) = ion(i)%symbol
+            end do
+        end do
+        do k= 1, 95
+            do i= 1, sum(ion%nb)
+                if ( i == 1) then
+                    write(outputFileUnit,*) sum(ion%nb)
+                    write(outputFileUnit,*)
+                end if
+                read(inputFileUnit,*) x, y, z
+                write(outputFileUnit,*) nature(i), x, y, z
+            end do
+        end do
     END SUBROUTINE
     
     SUBROUTINE readNbOfIons
