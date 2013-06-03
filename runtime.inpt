@@ -1,0 +1,57 @@
+200000   Number of steps in the run.
+1130.00     Translational temperature.
+1           Number of ionic molecular units. (dummy. put 1)
+3           Number of ionic species. Y F Li
+300,25,225                    Number of species of type 1,2,3,... Y,F,Li
+-1.0,3.0,1.0                  Permanent charge on ions.
+18.9984d0,88.90585d0,6.941d0   Atomic masses
+.true.,.true.,.false.        Polarizable ?
+.false.,.false.,.false.       Deformable ?
+41.341d0    Timestep (a.u.).
+dippim      Type of run (rim,dippim,quadpim,cim,aim)
+epp
+.false.     AIM effects on anion-anion interactions?
+.false.     Like-like multipole damping?
+.false.     Isolated cluster?
+.false.     Environmental effects on PIM?
+.false.     Environmental effects on AIM?
+.true.      Conjugate gradient minimisation? (PIM)
+1.0d-06
+1.0d-06
+.false.     Conjugate gradient minimisation? (AIM)
+.true.      Restart?
+.false.     Set up velocities?
+.true.      Velocity rescale prior to main run ?
+.false.     Random displacement of ions.
+.true.      Move ions?
+.false.     Do a dynamical matrix calculation?
+.false.     Relax input structure?
+200         Number of steps inbetween periodic output (energies).
+200         Number of steps inbetween periodic output (velocities etc).
+200         Number of steps inbetween periodic output (frictions etc).
+200          Number of steps inbetween periodic output (pressure etc).
+5           Number of steps inbetween rdf call in main loop.
+1           Number of ions to monitor.
+1           Ion number to monitor. (1)
+5.60d0      eta = <x>/boxlen.
+16.d0      rcut (au).
+1.0d-7      convergence parameter
+0.1d0       convergence factor.
+16.d0      rcut (au) short range.
+.true.      Nose-Hoover thermostat? (if true then enter a relaxation time)
+20000
+.false.     Periodic rescale of temperature?  1000
+.true.     Isotropic barostat?
+20000
+1.0d-8
+.false.     Anisotropic barostat?
+.false.     Orthorhombic cell?
+.false.     Pression ramping
+.false.     VBC ?
+.false.     verbose
+.false.     verbose
+.false.     verbose
+.false.     verbose
+.false.     verbose
+.false.     verbose
+.false.     verbose

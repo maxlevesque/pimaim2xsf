@@ -13,8 +13,7 @@ MODULE module_io
     implicit none
     integer, parameter :: inputFileUnit=10, outputFileUnit=11
     character(*), parameter :: inputFileName="positions.out", outputFileName="positions.xyz"
-    integer :: nbOfStepDumps
-
+    integer :: inputFileRecordsNumber
 END MODULE
 
 PROGRAM pimaim2xsf
@@ -24,13 +23,29 @@ PROGRAM pimaim2xsf
     
     call readNbOfIons
     call readSymbolAndQuantityOfIons
-    call readNumberOfStepsWrittenInInputFile
+    call countNumberOfLinesInInputFile
+    call testNumberOfStepsWrittenInInputFile
     call openInputAndOutputFiles
     call translate
 
 
     
     CONTAINS
+    
+    
+    SUBROUTINE countNumberOfLinesInInputFile
+        use module_io, only: inputFileUnit, inputFileName, inputFileRecordsNumber
+        integer :: ios
+        character(len=1) :: junk
+        open(inputFileUnit, file=inputFileName)
+        ios = 0
+        inputFileRecordsNumber = 0
+        do while (ios == 0)
+            read(inputFileUnit,*,IOSTAT=ios) junk
+            if (ios == 0) inputFileRecordsNumber = inputFileRecordsNumber + 1
+        end do
+        close(inputFileUnit)
+    END SUBROUTINE
 
     SUBROUTINE translate
         use module_io
@@ -45,7 +60,7 @@ PROGRAM pimaim2xsf
                 nature(k) = ion(i)%symbol
             end do
         end do
-        do k= 1, nbOfStepDumps
+        do k= 1, inputFileRecordsNumber/sum(ion%nb)
             do i= 1, sum(ion%nb)
                 if ( i == 1) then
                     write(outputFileUnit,*) sum(ion%nb)
@@ -71,7 +86,7 @@ PROGRAM pimaim2xsf
         do i= 1, size(ion)
             print*,'Symbol, e.g. Cl, of the ion number ',i
             read(*,*) ion(i)%symbol
-            print*,'Number of this type of ions in the supercell?'
+            print*,'How many ions of this type in the supercell?'
             read(*,*) ion(i)%nb
         end do
     END SUBROUTINE
@@ -82,10 +97,15 @@ PROGRAM pimaim2xsf
         open(outputFileUnit, file=outputFileName)
     END SUBROUTINE
     
-    SUBROUTINE readNumberOfStepsWrittenInInputFile
-        use module_io, only: nbOfStepDumps
-        print*,'How many steps have been dumped to the positions file? (1st line of PIMAIM div by line 30 * total nb of atoms'
-        read(*,*) nbOfStepDumps
+    SUBROUTINE testNumberOfStepsWrittenInInputFile
+        use module_io, only: inputFileRecordsNumber
+        use module_ions, only: ion
+        if( modulo(inputFileRecordsNumber,sum(ion%nb)) /= 0 ) then
+            print*,'STOP'
+            print*,'Incompatible record numbers in input file and total number of ions in the supercell.'
+            print*,'Their modulo should be 0.'
+            stop
+        end if
     END SUBROUTINE
     
 END PROGRAM
