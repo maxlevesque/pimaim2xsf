@@ -24,6 +24,8 @@ Once SCONS is installed:
 Use
 ===
 
+A file named positions.out is needed. This file is an output of pimaim
+
 Simply answer the questions in the terminal
 1/ How many ionic species ? (for instance 3 for Li,F,Be)
 2/ Symbol of species 1 (for instance F)
